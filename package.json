@@ -1,0 +1,30 @@
+{
+    "name": "dist-utils",
+    "version": "0.1.0",
+    "description": "scripts for helping with distribution",
+    "keywords": [
+        "dist",
+        "script"
+    ],
+    "main": "lib/warn-import.js",
+    "bin": {
+        "dist-utils": "dist-utils.js"
+    },
+    "repository": "https://github.com/SpudNyk/dist-utils.git",
+    "license": "MIT",
+    "scripts": {},
+    "dependencies": {
+        "fs-jetpack": "^2.2.3",
+        "is-what": "^3.5.1",
+        "yargs": "^15.1.0"
+    },
+    "devDependencies": {
+        "eslint": "^6.8.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "engines": {
+        "node": ">=10.0.0"
+    }
+}
