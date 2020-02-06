@@ -1,21 +1,24 @@
 {
-    "name": "dist-utils",
+    "name": "dist-package",
     "version": "0.1.0",
-    "description": "scripts for helping with distribution",
+    "description": "scripts for helping with prepare a package for distribution",
     "keywords": [
         "dist",
         "script"
     ],
     "main": "lib/warn-import.js",
     "bin": {
-        "dist-utils": "dist-utils.js"
+        "dist-package": "dist-package.js"
     },
     "repository": "https://github.com/SpudNyk/dist-utils.git",
     "license": "MIT",
     "scripts": {},
     "dependencies": {
+        "cliui": "^6.0.0",
+        "copy-anything": "^1.5.4",
         "fs-jetpack": "^2.2.3",
         "is-what": "^3.5.1",
+        "merge-anything": "^2.4.4",
         "yargs": "^15.1.0"
     },
     "devDependencies": {

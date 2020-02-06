@@ -8,7 +8,7 @@ function defaultAsModule(mod) {
         if (Object.prototype.hasOwnProperty.call(def, name)) {
             if (def[name] !== entry) {
                 process.emitWarning(
-                    `default export already has ${name} property - not exporting`
+                    `default export has an existing ${name} property, exports do not match.`
                 );
             }
             // this is no longer an es module so skip that entry

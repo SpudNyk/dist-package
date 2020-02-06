@@ -36,4 +36,10 @@ const transformer = () => async (package, destination) => {
     };
 };
 
-module.exports = transformer;
+module.exports = {
+    __du_isTransform: true,
+    enabled: false,
+    name: 'fix-exports',
+    priority: 100,
+    create: transformer
+};

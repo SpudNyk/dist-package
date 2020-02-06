@@ -3,8 +3,6 @@ const pathSep = require('path').sep;
 
 const main = async argv => {
     const config = await argv.config;
-    // eslint-disable-next-line no-unused-vars
-    const options = await config.args('clean', argv);
     const { dist } = config.get('dirs');
     const path = jp.path(dist);
     const cwd = jp.path();
@@ -18,13 +16,7 @@ const main = async argv => {
 };
 
 module.exports = {
-    command: 'clean [dist-dir]',
-    description: 'cleans the given folder',
-    builder: yargs => {
-        yargs.positional('dist-dir', {
-            alias: ['dist', 'destination'],
-            description: 'The folder to clean'
-        });
-    },
+    command: 'clean',
+    description: 'removes the dist directory',
     handler: main
 };
