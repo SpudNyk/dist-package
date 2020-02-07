@@ -19,6 +19,5 @@ module.exports = {
     __du_isTransform: true,
     enable: true,
     priority: 0,
-    name: 'strip-entries',
     create
 };

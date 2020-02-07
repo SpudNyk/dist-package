@@ -89,6 +89,5 @@ module.exports = {
     __du_isTransform: true,
     enabled: true,
     priority: 0,
-    name: 'override',
     create
 };
