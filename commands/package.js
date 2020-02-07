@@ -1,20 +1,12 @@
 const jp = require('fs-jetpack');
+const path = require('path');
+const { cwdSubPath, isParent } = require('../lib/paths');
 const lines = require('../lib/lines');
 const table = require('../lib/table');
-const path = require('path');
-const pathSep = require('path').sep;
 
 // default transforms location
 const TRANSFORMS_DIR = './transforms';
 const PACKAGE_FILENAME = 'package.json';
-
-const relPath = path => {
-    const cwd = jp.path() + pathSep;
-    if (path.startsWith(cwd)) {
-        return './' + path.slice(cwd.length);
-    }
-    return path;
-};
 
 const getName = entry => path.parse(entry.toLowerCase()).name;
 
@@ -200,9 +192,9 @@ const prepareTransforms = async (options, source, dist) => {
 
 const preparePackage = async (sourceFs, distFs, transforms = []) => {
     console.log(
-        `transforming ${relPath(sourceFs.path(PACKAGE_FILENAME))} -> ${relPath(
-            distFs.path(PACKAGE_FILENAME)
-        )}`
+        `transforming ${cwdSubPath(
+            sourceFs.path(PACKAGE_FILENAME)
+        )} -> ${cwdSubPath(distFs.path(PACKAGE_FILENAME))}`
     );
     const package = await sourceFs.readAsync(PACKAGE_FILENAME, 'json');
     const transformed = await runTransforms(
@@ -234,9 +226,31 @@ const getOptions = (argv, options) => {
     return options;
 };
 
+const validateDirs = async (source, dist) => {
+    if (isParent(dist, source)) {
+        console.log(`Error: ${dist} is a parent directory of ${source}`);
+        console.log(`Please use a different dist directory.`);
+        return false;
+    } else if (jp.path(dist) === jp.path(source)) {
+        console.log(`Error: ${dist} and ${source} are the same directory`);
+        return false;
+    } else if (
+        (await jp.cwd(source).existsAsync(PACKAGE_FILENAME)) !== 'file'
+    ) {
+        console.log(`${cwdSubPath(source)} has no ${PACKAGE_FILENAME}`);
+        return false;
+    }
+    return true;
+};
+
 const main = async argv => {
     const config = argv.config;
     const { source, dist } = config.get('dirs');
+    if (!(await validateDirs(source, dist))) {
+        process.exitCode = 1;
+        return;
+    }
+
     const options = await getOptions(argv, config.get('package', {}), source);
     if (argv.list) {
         return listTransforms({
@@ -245,14 +259,15 @@ const main = async argv => {
         });
     }
     const sourceFs = jp.cwd(source);
+
     // ensure dist exists
     const distFs = await jp.dirAsync(dist);
     const transforms = await prepareTransforms(options, sourceFs, distFs);
-    console.log(`Preparing ${relPath(source)} into ${relPath(dist)}`);
+    console.log(`Preparing ${cwdSubPath(source)} into ${cwdSubPath(dist)}`);
     await preparePackage(sourceFs, distFs, transforms);
     console.log(`Preperations complete`);
     console.log(
-        `Don't forget to change to ${relPath(dist)} before publishing.`
+        `Don't forget to change to ${cwdSubPath(dist)} before publishing.`
     );
 };
 

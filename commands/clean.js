@@ -1,17 +1,18 @@
 const jp = require('fs-jetpack');
-const pathSep = require('path').sep;
+const path = require('path');
+const { cwdSubPath } = require('../lib/paths');
 
 const main = async argv => {
     const config = await argv.config;
     const { dist } = config.get('dirs');
-    const path = jp.path(dist);
+    const distPath = jp.path(dist);
     const cwd = jp.path();
-    if (path === cwd || cwd.startsWith(path + pathSep)) {
+    if (path === cwd || cwd.startsWith(distPath + path.sep)) {
         console.log(`Cannot remove the current directory`);
         process.exitCode = 1;
         return;
     }
-    console.log(`Removing ${dist}`);
+    console.log(`Removing ${cwdSubPath(dist)}`);
     await jp.removeAsync(dist);
 };
 
