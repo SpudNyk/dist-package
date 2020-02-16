@@ -1,6 +1,6 @@
 {
     "name": "dist-package",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "scripts for helping with prepare a package for distribution",
     "keywords": [
         "dist",
@@ -15,10 +15,10 @@
     "scripts": {},
     "dependencies": {
         "cliui": "^6.0.0",
-        "copy-anything": "^1.5.4",
+        "copy-anything": "^1.6.0",
         "fs-jetpack": "^2.2.3",
-        "is-what": "^3.5.1",
-        "merge-anything": "^2.4.4",
+        "is-what": "^3.6.0",
+        "merge-anything": "^3.0.1",
         "yargs": "^15.1.0"
     },
     "devDependencies": {
